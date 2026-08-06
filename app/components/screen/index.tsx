@@ -52,7 +52,7 @@ export default function Screen({
     video.pause();
     video.removeAttribute("src");
     video.load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- reinicia só ao ligar/trocar cartucho
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldPlay, cartridgeId]);
 
   return (

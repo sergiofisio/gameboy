@@ -54,7 +54,6 @@ export default function DPad({ className = "" }: DPadProps) {
   );
 }
 
-/** Cruz simétrica: braços ~34% da largura */
 const CROSS_CLIP = [
   "polygon(",
   "33% 0%, 67% 0%,",

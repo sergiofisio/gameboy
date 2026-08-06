@@ -62,7 +62,6 @@ export default function Page() {
 
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center gap-5 overflow-x-hidden px-3 py-4 sm:gap-6 sm:py-6">
-      {/* Mobile: cartuchos no topo */}
       <div className="w-full max-w-lg lg:hidden">
         <CartridgeRack
           insertedId={insertedId}
@@ -71,7 +70,6 @@ export default function Page() {
         />
       </div>
 
-      {/* Desktop: rack | console | spacer (mesma largura do rack) = console no centro */}
       <div className="flex w-full max-w-5xl items-center justify-center gap-4 sm:gap-6">
         <div className="hidden shrink-0 lg:block">
           <CartridgeRack
@@ -130,7 +128,6 @@ export default function Page() {
           </div>
         </div>
 
-        {/* Spacer espelha a largura do rack para manter o Game Boy no centro */}
         <div className="hidden w-[5.5rem] shrink-0 lg:block" aria-hidden />
       </div>
     </div>

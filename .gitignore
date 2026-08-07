@@ -40,4 +40,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-.vercel
+# local Game Boy ROMs (never commit)
+public/roms/
+*.gb
+*.gbc
+*.gba

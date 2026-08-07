@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import type { CartridgeGame } from "@/lib/cartridges";
+import TetrisEmulator from "../tetris-emulator";
 
 type ScreenProps = {
   className: string;
@@ -18,21 +19,23 @@ export default function Screen({
 }: ScreenProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const hasCartridge = Boolean(cartridge);
-  const shouldPlay = isOn && hasCartridge;
+  const isTetris = cartridge?.id === "tetris";
+  const shouldPlayVideo = isOn && hasCartridge && !isTetris;
   const cartridgeId = cartridge?.id ?? null;
+  const tetrisRomUrl = process.env.NEXT_PUBLIC_TETRIS_ROM_URL;
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
     video.volume = volume;
-    if (shouldPlay) video.muted = volume === 0;
-  }, [volume, shouldPlay]);
+    if (shouldPlayVideo) video.muted = volume === 0;
+  }, [volume, shouldPlayVideo]);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    if (shouldPlay && cartridge) {
+    if (shouldPlayVideo && cartridge) {
       video.src = cartridge.videoSrc;
       video.currentTime = 0;
       video.volume = volume;
@@ -53,7 +56,7 @@ export default function Screen({
     video.removeAttribute("src");
     video.load();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shouldPlay, cartridgeId]);
+  }, [shouldPlayVideo, cartridgeId]);
 
   return (
     <div
@@ -77,10 +80,14 @@ export default function Screen({
         </div>
       )}
 
+      {isOn && isTetris && (
+        <TetrisEmulator volume={volume} romUrl={tetrisRomUrl} />
+      )}
+
       <video
         ref={videoRef}
         className={`absolute inset-0 h-full w-full object-cover [image-rendering:pixelated] transition-opacity duration-300 ${
-          shouldPlay ? "opacity-100" : "pointer-events-none opacity-0"
+          shouldPlayVideo ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
         loop
         playsInline

@@ -23,6 +23,7 @@ Projeto feito com **Next.js**, **TypeScript** e **Tailwind CSS**, com o console 
 - Inserção do cartucho pelo topo
 - Troca de jogo só com o console **desligado**
 - Tela com mensagem de erro sem cartucho e gameplay ao ligar com um cartucho inserido
+- **Tetris jogável** via emulador (ROM hospedada por você — não vai no Git)
 
 ## Stack
 
@@ -32,6 +33,7 @@ Projeto feito com **Next.js**, **TypeScript** e **Tailwind CSS**, com o console 
 | TypeScript   | Tipagem                      |
 | Tailwind CSS | Estilos e layout responsivo  |
 | React 19     | Estado e interações do UI    |
+| gameboy-emulator | Emulador GB (Tetris jogável) |
 
 ## Como rodar
 
@@ -58,6 +60,7 @@ yarn lint   # ESLint
 ```text
 app/
   components/     # UI do console (header, botões, tela, cartuchos…)
+    tetris-emulator/  # emulador + teclado (só cartucho Tetris)
   pages/          # composição principal do Game Boy
   layout.tsx
   page.tsx
@@ -68,6 +71,7 @@ public/
   cartridges/     # imagens dos cartuchos
   sounds/         # efeitos sonoros
   videos/         # gameplays por cartucho
+  roms/           # opcional local (gitignored)
 ```
 
 ## Como usar
@@ -76,6 +80,49 @@ public/
 2. Deslize o switch para **ON**.
 3. Ajuste o volume na roda lateral, se quiser.
 4. Para trocar de jogo, desligue o console e clique no cartucho inserido (ou escolha outro).
+
+### Controles do Tetris (teclado)
+
+Com o cartucho Tetris inserido e o console ligado:
+
+| Tecla   | Botão Game Boy |
+| ------- | -------------- |
+| Setas   | D-pad          |
+| `Z`     | A              |
+| `X`     | B              |
+| `Enter` | Start          |
+| `Espaço`| Select         |
+
+Os outros cartuchos continuam mostrando gameplay em vídeo.
+
+## ROM do Tetris (obrigatória para jogar)
+
+A ROM **não** entra no repositório. Você hospeda o arquivo e aponta a URL pública.
+
+1. Crie um Blob **Public** no projeto Vercel (**Storage → Blob**), ou use outro CDN.
+2. Envie a ROM (exemplo com Vercel CLI):
+
+```bash
+npx @vercel/blob upload "caminho/para/tetris.gb" --name tetris.gb
+```
+
+3. Defina a variável de ambiente (local e/ou Vercel):
+
+```bash
+NEXT_PUBLIC_TETRIS_ROM_URL=https://….public.blob.vercel-storage.com/tetris.gb
+```
+
+Localmente, crie um `.env.local` com essa linha e rode `yarn dev`.
+
+Opcional na máquina: coloque a ROM em `public/roms/tetris.gb` (pasta gitignored) e use:
+
+```bash
+NEXT_PUBLIC_TETRIS_ROM_URL=/roms/tetris.gb
+```
+
+Sem a variável, a tela do Tetris mostra “ROM NÃO CONFIGURADA” e o site não quebra.
+
+Responsabilidade legal da ROM e do hosting é sua.
 
 ## Licença
 
